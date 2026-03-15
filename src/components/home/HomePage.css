@@ -1,0 +1,472 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.homepage {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+}
+
+/* Navbar Styles */
+.navbar {
+  background: linear-gradient(90deg, #0066cc 0%, #00cc66 100%);
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+/* Logo */
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.logo-text {
+  color: white;
+}
+
+.akwaama {
+  color: #00cc66;
+  text-shadow: 0 0 10px rgba(0, 204, 102, 0.5);
+}
+
+.bet {
+  color: #0066cc;
+  text-shadow: 0 0 10px rgba(0, 102, 204, 0.5);
+}
+
+/* Services Dropdown - Always Visible */
+.services-dropdown {
+  position: relative; /* important for absolute child */
+}
+
+.services-btn {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.services-menu {
+  position: absolute;
+  top: 110%; 
+  left: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.service-item {
+  padding: 10px 15px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-weight: bold;
+}
+
+.service-item:hover {
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}
+
+/* simple fade in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  min-width: 250px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  margin-top: 0.5rem;
+  z-index: 1000;
+}
+
+.dropdown-content a {
+  color: #333;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.dropdown-content a:hover {
+  background: linear-gradient(90deg, rgba(0, 102, 204, 0.1) 0%, rgba(0, 204, 102, 0.1) 100%);
+  color: #0066cc;
+  padding-left: 20px;
+}
+
+/* Desktop Auth Buttons */
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.login-btn, .signup-btn {
+  padding: 0.8rem 1.8rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-btn {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.login-btn:hover {
+  background: white;
+  color: #0066cc;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+}
+
+.signup-btn {
+  background: white;
+  color: #00cc66;
+  border: 2px solid white;
+}
+
+.signup-btn:hover {
+  background: #00cc66;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 204, 102, 0.4);
+}
+
+/* Mobile Auth Menu (Hamburger for login/signup only) */
+.auth-menu-container {
+  position: relative;
+}
+
+.hamburger-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 25px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
+}
+
+.hamburger-btn span {
+  width: 30px;
+  height: 3px;
+  background: white;
+  border-radius: 10px;
+  transition: all 0.3s linear;
+  position: relative;
+  transform-origin: 1px;
+}
+
+.hamburger-btn.open span:first-child {
+  transform: rotate(45deg);
+}
+
+.hamburger-btn.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-btn.open span:last-child {
+  transform: rotate(-45deg);
+}
+
+.auth-mobile-menu {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background: white;
+  min-width: 200px;
+  max-height: 0;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: max-height 0.3s ease-out;
+  z-index: 1000;
+}
+
+.auth-mobile-menu.open {
+  max-height: 200px;
+  transition: max-height 0.5s ease-in;
+}
+
+.auth-mobile-content {
+  padding: 1.5rem;
+}
+
+.auth-mobile-title {
+  color: #0066cc;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #00cc66;
+}
+
+.mobile-login-btn,
+.mobile-signup-btn {
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.mobile-login-btn {
+  background: transparent;
+  color: #0066cc;
+  border: 2px solid #0066cc;
+}
+
+.mobile-login-btn:hover {
+  background: #0066cc;
+  color: white;
+}
+
+.mobile-signup-btn {
+  background: linear-gradient(90deg, #0066cc, #00cc66);
+  color: white;
+}
+
+.mobile-signup-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 204, 102, 0.4);
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.main-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(0, 102, 204, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.content-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.main-title {
+  font-size: 3.5rem;
+  margin-bottom: 2rem;
+  color: #333;
+  animation: fadeInDown 1s ease;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Team Message */
+.team-message {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 3rem;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  margin: 3rem 0;
+  animation: fadeInUp 1s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.team-title {
+  font-size: 2.5rem;
+  background: linear-gradient(90deg, #0066cc, #00cc66);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 1.5rem;
+}
+
+.team-description {
+  font-size: 1.8rem;
+  line-height: 1.6;
+}
+
+.highlight {
+  color: #0066cc;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 102, 204, 0.2);
+  display: inline-block;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.slogan {
+  color: #00cc66;
+  font-weight: 600;
+  margin: 1rem 0;
+}
+
+.location {
+  color: #333;
+  font-size: 2rem;
+  font-weight: bold;
+  background: linear-gradient(90deg, #0066cc, #00cc66);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* CTA Section */
+.cta-section {
+  margin-top: 3rem;
+}
+
+.cta-button {
+  background: linear-gradient(90deg, #0066cc, #00cc66);
+  color: white;
+  border: none;
+  padding: 1.2rem 3rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(0, 102, 204, 0.3);
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(0, 204, 102, 0.4);
+}
+
+/* Footer */
+.footer {
+  background: linear-gradient(90deg, #0066cc, #00cc66);
+  color: white;
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem;
+  }
+
+  .nav-container {
+    gap: 0.5rem;
+  }
+
+  .desktop-auth {
+    display: none;
+  }
+
+  .services-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .dropdown-content {
+    min-width: 200px;
+  }
+
+  .main-title {
+    font-size: 2rem;
+  }
+
+  .team-description {
+    font-size: 1.2rem;
+  }
+
+  .team-message {
+    padding: 2rem;
+  }
+
+  .location {
+    font-size: 1.4rem;
+  }
+
+  .cta-button {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .auth-menu-container {
+    display: none;
+  }
+}
