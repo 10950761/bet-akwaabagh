@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import api from '../../api/api';
 import './SignUpPage.css';
 
 export const SignUpPage = () => {
@@ -128,28 +129,63 @@ export const SignUpPage = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (validateForm()) {
       setIsLoading(true);
-      setTimeout(() => {
-        console.log('Form submitted:', formData);
+      
+      try {
+        const response = await api.post('/api/auth/signup', formData);
+
+        const data = response.data;
+
+        if (data.success) {
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('user', JSON.stringify(data.user));
+          localStorage.setItem('email', data.user.email);
+          
+          alert(data.message);
+          navigate('/');
+        }
+      } catch (error) {
+        console.error('Signup error:', error);
+        
+        // Handle validation errors from server
+        if (error.response?.data?.errors) {
+          setErrors(error.response.data.errors);
+        } else {
+          alert(error.response?.data?.message || 'Signup failed. Please try again.');
+        }
+      } finally {
         setIsLoading(false);
-        alert('Registration successful! Welcome to BetAkwaaba!');
-        navigate('/');
-      }, 1500);
+      }
     }
   };
 
-  const handleSocialSignUp = (provider) => {
+  const handleSocialSignUp = async (provider) => {
     setIsLoading(true);
-    console.log(`Signing up with ${provider}`);
-    setTimeout(() => {
+    
+    try {
+      // For Google OAuth, you'd need to implement the actual OAuth flow
+      const response = await api.post('/api/auth/social', {
+        provider: provider.toLowerCase()
+      });
+      
+      const data = response.data;
+      
+      if (data.success) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('email', data.user.email);
+        alert(data.message);
+        navigate('/');
+      }
+    } catch (error) {
+      alert(error.response?.data?.message || `${provider} signup failed`);
+    } finally {
       setIsLoading(false);
-      alert(`Sign up with ${provider} successful! Welcome to BetAkwaaba!`);
-      navigate('/');
-    }, 1500);
+    }
   };
 
   const handleBack = () => {

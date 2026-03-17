@@ -8,6 +8,10 @@ export const HomePage = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const navigate = useNavigate();
 
+  const handleExplore = () => {
+  navigate('/explore');
+};
+
   const handleSignUp = () => {
     navigate('/signup');
     setIsAuthMenuOpen(false);
@@ -71,31 +75,31 @@ export const HomePage = () => {
           </div>
 
           {/* Services Dropdown - Always Visible */}
-        <div className="services-dropdown">
-  <button
-    className="services-btn"
-    onClick={() => setIsServicesOpen(!isServicesOpen)}
-  >
-    Services ▼
-  </button>
+          <div className="services-dropdown">
+            <button
+              className="services-btn"
+              onClick={() => setIsServicesOpen(!isServicesOpen)}
+            >
+              Services ▼
+            </button>
 
-  {isServicesOpen && (
-    <div className="services-menu">
-      {services.map((service, index) => (
-        <button
-          key={index}
-          className="service-item"
-          onClick={() => {
-            console.log(service);
-            setIsServicesOpen(false); 
-          }}
-        >
-          {service}
-        </button>
-      ))}
-    </div>
-  )}
-</div>
+            {isServicesOpen && (
+              <div className="services-menu">
+                {services.map((service, index) => (
+                  <button
+                    key={index}
+                    className="service-item"
+                    onClick={() => {
+                      console.log(service);
+                      setIsServicesOpen(false);
+                    }}
+                  >
+                    {service}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           {/* Desktop Auth Buttons (hidden on mobile) */}
           <div className="auth-buttons desktop-auth">
             <button className="login-btn" onClick={handleLogin}>Login</button>
@@ -151,7 +155,7 @@ export const HomePage = () => {
           </div>
 
           <div className="cta-section">
-            <button className="cta-button">Explore Services</button>
+           <button className="cta-button" onClick={handleExplore}>Explore Services</button>
           </div>
         </div>
       </main>

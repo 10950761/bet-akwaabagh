@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import api from '../../api/api';
 import './LoginPage.css';
 
 export const LoginPage = () => {
@@ -54,17 +55,43 @@ export const LoginPage = () => {
     if (validateForm()) {
       setIsLoading(true);
       
-      setTimeout(() => {
-        console.log('Login attempt:', formData);
+      try {
+        const response = await api.post('/api/auth/login', {
+          email: formData.email,
+          password: formData.password,
+          rememberMe: formData.rememberMe
+        });
+
+        const data = response.data;
+
+        if (data.success) {
+          // Store user data
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('user', JSON.stringify(data.user));
+          localStorage.setItem('email', data.user.email);
+          
+          alert(data.message);
+          navigate('/');
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        const errorMessage = error.response?.data?.message || 'Login failed. Please try again.';
+        
+        // Handle field-specific errors if any
+        if (error.response?.data?.errors) {
+          setErrors(error.response.data.errors);
+        } else {
+          alert(errorMessage);
+        }
+      } finally {
         setIsLoading(false);
-        alert('Login successful! Welcome back to BetAkwaaba!');
-        navigate('/');
-      }, 1500);
+      }
     }
   };
 
-  const handleForgotPassword = (e) => {
+  const handleForgotPassword = async (e) => {
     e.preventDefault();
+    
     if (!resetEmail) {
       setResetMessage({ type: 'error', text: 'Please enter your email address' });
       return;
@@ -74,23 +101,54 @@ export const LoginPage = () => {
       return;
     }
 
-    setResetMessage({ type: 'success', text: 'Password reset link has been sent to your email!' });
-    setTimeout(() => {
-      setShowForgotPassword(false);
-      setResetMessage('');
-      setResetEmail('');
-    }, 3000);
+    setIsLoading(true);
+    try {
+      const response = await api.post('/api/auth/forgot-password', {
+        email: resetEmail
+      });
+
+      setResetMessage({ type: 'success', text: response.data.message });
+      
+      setTimeout(() => {
+        setShowForgotPassword(false);
+        setResetMessage('');
+        setResetEmail('');
+      }, 3000);
+    } catch (error) {
+      setResetMessage({ 
+        type: 'error', 
+        text: error.response?.data?.message || 'Failed to send reset email' 
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleSocialLogin = (provider) => {
+  const handleSocialLogin = async (provider) => {
     setIsLoading(true);
-    console.log(`Logging in with ${provider}`);
     
-    setTimeout(() => {
+    try {
+      // For Google OAuth, you'd need to implement the actual OAuth flow
+      // This is a simplified version - you should use @react-oauth/google
+      const response = await api.post('/api/auth/social', {
+        provider: provider.toLowerCase(),
+        // In real implementation, you'd send the OAuth token here
+      });
+      
+      const data = response.data;
+      
+      if (data.success) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('email', data.user.email);
+        alert(data.message);
+        navigate('/');
+      }
+    } catch (error) {
+      alert(error.response?.data?.message || `${provider} login failed`);
+    } finally {
       setIsLoading(false);
-      alert(`Login with ${provider} successful! Welcome back to BetAkwaaba!`);
-      navigate('/');
-    }, 1500);
+    }
   };
 
   const handleBack = () => {
@@ -98,8 +156,8 @@ export const LoginPage = () => {
   };
 
   return (
-        <div className="login-page">
-        <div className="login-container">
+    <div className="login-page">
+      <div className="login-container">
         <button className="back-button" onClick={handleBack}>
           ← Back to Home
         </button>
@@ -272,7 +330,7 @@ export const LoginPage = () => {
                 onClick={handleForgotPassword}
                 disabled={isLoading}
               >
-                Send Reset Link
+                {isLoading ? 'Sending...' : 'Send Reset Link'}
               </button>
             </div>
 
