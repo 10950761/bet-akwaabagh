@@ -129,39 +129,40 @@ export const SignUpPage = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ // pages/SignUpPage/SignUpPage.jsx - Update handleSubmit
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (validateForm()) {
-      setIsLoading(true);
-      
-      try {
-        const response = await api.post('/api/auth/signup', formData);
+  if (validateForm()) {
+    setIsLoading(true);
+    
+    try {
+      const response = await api.post('/api/auth/signup', formData);
 
-        const data = response.data;
+      const data = response.data;
 
-        if (data.success) {
-          localStorage.setItem('token', data.token);
-          localStorage.setItem('user', JSON.stringify(data.user));
-          localStorage.setItem('email', data.user.email);
-          
-          alert(data.message);
-          navigate('/');
-        }
-      } catch (error) {
-        console.error('Signup error:', error);
+      if (data.success) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('userId', data.user.id);
+        localStorage.setItem('userEmail', data.user.email);
         
-        // Handle validation errors from server
-        if (error.response?.data?.errors) {
-          setErrors(error.response.data.errors);
-        } else {
-          alert(error.response?.data?.message || 'Signup failed. Please try again.');
-        }
-      } finally {
-        setIsLoading(false);
+        alert(data.message);
+        navigate('/profile'); 
       }
+    } catch (error) {
+      console.error('Signup error:', error);
+      
+      if (error.response?.data?.errors) {
+        setErrors(error.response.data.errors);
+      } else {
+        alert(error.response?.data?.message || 'Signup failed. Please try again.');
+      }
+    } finally {
+      setIsLoading(false);
     }
-  };
+  }
+};
 
   const handleSocialSignUp = async (provider) => {
     setIsLoading(true);

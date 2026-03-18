@@ -49,46 +49,46 @@ export const LoginPage = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ // pages/LoginPage/LoginPage.jsx - Update handleSubmit
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  if (validateForm()) {
+    setIsLoading(true);
     
-    if (validateForm()) {
-      setIsLoading(true);
-      
-      try {
-        const response = await api.post('/api/auth/login', {
-          email: formData.email,
-          password: formData.password,
-          rememberMe: formData.rememberMe
-        });
+    try {
+      const response = await api.post('/api/auth/login', {
+        email: formData.email,
+        password: formData.password,
+        rememberMe: formData.rememberMe
+      });
 
-        const data = response.data;
+      const data = response.data;
 
-        if (data.success) {
-          // Store user data
-          localStorage.setItem('token', data.token);
-          localStorage.setItem('user', JSON.stringify(data.user));
-          localStorage.setItem('email', data.user.email);
-          
-          alert(data.message);
-          navigate('/');
-        }
-      } catch (error) {
-        console.error('Login error:', error);
-        const errorMessage = error.response?.data?.message || 'Login failed. Please try again.';
+      if (data.success) {
+        // Store user data
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('userId', data.user.id);
+        localStorage.setItem('userEmail', data.user.email);
         
-        // Handle field-specific errors if any
-        if (error.response?.data?.errors) {
-          setErrors(error.response.data.errors);
-        } else {
-          alert(errorMessage);
-        }
-      } finally {
-        setIsLoading(false);
+        alert(data.message);
+        navigate('/profile'); 
       }
+    } catch (error) {
+      console.error('Login error:', error);
+      const errorMessage = error.response?.data?.message || 'Login failed. Please try again.';
+      
+      if (error.response?.data?.errors) {
+        setErrors(error.response.data.errors);
+      } else {
+        alert(errorMessage);
+      }
+    } finally {
+      setIsLoading(false);
     }
-  };
-
+  }
+};
   const handleForgotPassword = async (e) => {
     e.preventDefault();
     
