@@ -1,5 +1,5 @@
 // pages/ProfilePage/ProfilePage.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../api/api';
 import './ProfilePage.css';
@@ -10,20 +10,8 @@ export const ProfilePage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    // Check if user is logged in
-    const token = localStorage.getItem('token');
-    const userId = localStorage.getItem('userId');
-    
-    if (!token || !userId) {
-      navigate('/login');
-      return;
-    }
-
-    fetchUserProfile(userId);
-  }, [navigate]);
-
-  const fetchUserProfile = async (userId) => {
+  // ✅ FIXED: wrapped with useCallback
+  const fetchUserProfile = useCallback(async (userId) => {
     try {
       const response = await api.get(`/api/auth/profile/${userId}`);
       
@@ -45,7 +33,20 @@ export const ProfilePage = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [navigate]);
+
+  // ✅ FIXED: added fetchUserProfile to dependency
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+    
+    if (!token || !userId) {
+      navigate('/login');
+      return;
+    }
+
+    fetchUserProfile(userId);
+  }, [navigate, fetchUserProfile]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -119,7 +120,7 @@ export const ProfilePage = () => {
         </div>
 
         <div className="profile-content">
-          {/* Profile Picture Placeholder - You can add upload later */}
+          {/* Profile Picture */}
           <div className="profile-picture-section">
             <div className="profile-picture-circle">
               <span className="profile-initials">
@@ -130,12 +131,12 @@ export const ProfilePage = () => {
             <p className="profile-email">{userData.email}</p>
           </div>
 
-          {/* Profile Information */}
+          {/* Profile Info */}
           <div className="profile-info-section">
             <h2 className="section-title">Profile Information</h2>
             
             <div className="info-grid">
-              {/* Personal Information Card */}
+              {/* Personal */}
               <div className="info-card">
                 <h3>Personal Details</h3>
                 <div className="info-item">
@@ -160,7 +161,7 @@ export const ProfilePage = () => {
                 </div>
               </div>
 
-              {/* Professional Information Card */}
+              {/* Professional */}
               <div className="info-card">
                 <h3>Professional Details</h3>
                 <div className="info-item">
@@ -177,7 +178,7 @@ export const ProfilePage = () => {
                 </div>
               </div>
 
-              {/* Additional Information Card */}
+              {/* Extra */}
               <div className="info-card full-width">
                 <h3>Why I Want to Join</h3>
                 <p className="why-join-text">
