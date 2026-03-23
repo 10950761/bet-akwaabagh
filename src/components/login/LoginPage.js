@@ -163,7 +163,7 @@ const handleSubmit = async (e) => {
         </button>
 
         <div className="auth-header">
-          <h1>Welcome Back to <span className="bet">Bet</span><span className="akwaaba">Akwaaba</span></h1>
+          <h1>Welcome Back to <span className="bet">The</span><span className="akwaaba">Akwaaba</span></h1>
           <p className="header-subtitle">Log in to continue your journey with #BlackExcellence</p>
         </div>
 

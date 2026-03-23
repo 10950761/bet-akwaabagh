@@ -71,7 +71,7 @@ export const HomePage = () => {
       <nav className="navbar">
         <div className="nav-container">
           <div className="logo">
-            <span className="logo-text">Bet<span className="akwaama">Akwaaba</span></span>
+            <span className="logo-text">The<span className="akwaama">Akwaaba</span></span>
           </div>
 
           {/* Services Dropdown - Always Visible */}
@@ -139,7 +139,7 @@ export const HomePage = () => {
       <main className="main-content">
         <div className="content-container">
           <h1 className="main-title">
-            Welcome to <span className="bet">Bet</span>
+            Welcome to <span className="bet">The</span>
             <span className="akwaama">Akwaaba</span>
           </h1>
 
@@ -162,7 +162,7 @@ export const HomePage = () => {
 
       {/* Footer */}
       <footer className="footer">
-        <p>© 2026 BetAkwaaba. All rights reserved.</p>
+        <p>© 2026 The Akwaaba. All rights reserved.</p>
       </footer>
     </div>
   );

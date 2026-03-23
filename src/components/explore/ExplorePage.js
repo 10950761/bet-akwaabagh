@@ -47,7 +47,7 @@ export const ExplorePage = () => {
           </button>
           
           <div className="logo">
-            <span className="logo-text">Bet<span className="akwaaba">Akwaaba</span></span>
+            <span className="logo-text">The<span className="akwaama">Akwaaba</span></span>
           </div>
           
           {/* Empty div for spacing */}
@@ -59,7 +59,7 @@ export const ExplorePage = () => {
       <section className="hero-section">
         <div className="hero-content">
           <h1 className="hero-title">
-            <span className="bet">Bet</span><span className="akwaaba">Akwaaba</span>
+            <span className="bet">The</span><span className="akwaaba">Akwaaba</span>
           </h1>
           <p className="hero-subtitle">
             An annual extravaganza where international actors and actresses converge 
@@ -72,7 +72,7 @@ export const ExplorePage = () => {
       {/* Event Highlights */}
       <section className="highlights-section">
         <h2 className="section-title">Event Highlights</h2>
-        <p className="section-subtitle">A night to remember at BetAkwaaba</p>
+        <p className="section-subtitle">A night to remember at TheAkwaaba</p>
         
         <div className="highlights-grid">
           {eventHighlights.map((item, index) => (
@@ -117,7 +117,7 @@ export const ExplorePage = () => {
       {/* Simple Info Section - NO signup/login calls */}
       <section className="info-section">
         <div className="info-container">
-          <h2 className="info-title">Experience BetAkwaaba</h2>
+          <h2 className="info-title">Experience TheAkwaaba</h2>
           <p className="info-text">
             Join international actors and actresses for a spectacular night of glamour, 
             movie premieres, fine dining, and entertainment in the heart of Ghana.
@@ -129,7 +129,7 @@ export const ExplorePage = () => {
       <footer className="explore-footer">
         <div className="footer-content">
           <p className="footer-text">
-            © 2026 BetAkwaaba. All rights reserved. 
+            © 2026 TheAkwaaba. All rights reserved. 
             <Link to="/privacy">Privacy</Link> • 
             <Link to="/terms">Terms</Link>
           </p>
